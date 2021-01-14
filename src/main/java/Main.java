@@ -11,6 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -31,8 +32,8 @@ public class Main {
 
             String[] lineInArray;
             FileOutputStream fos = new FileOutputStream(args[1]);
-            OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
-            try(PrintWriter out = new PrintWriter( osw )) {;
+            OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+            try(PrintWriter out = new PrintWriter( osw )) {
                 while ((lineInArray = reader.readNext()) != null) {
                     String konto = lineInArray[2];
                     String odbiorca = lineInArray[3];
@@ -46,9 +47,8 @@ public class Main {
             } catch (FileNotFoundException fileNotFoundException) {
             System.out.println("brak możliwości otwarcia pliku: " + args[1]);
         } catch (UnsupportedEncodingException unsupportedEncodingException) {
-            unsupportedEncodingException.printStackTrace();
-        }
-    } catch (FileNotFoundException e) {
+            unsupportedEncodingException.printStackTrace(); }
+        } catch (FileNotFoundException e) {
             System.out.println("Plik " + args[0] + " nie znaleziony.");
         } catch (IOException e) {
             e.printStackTrace();
