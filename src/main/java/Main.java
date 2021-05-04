@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -33,17 +35,21 @@ public class Main {
             String[] lineInArray;
             FileOutputStream fos = new FileOutputStream(args[1]);
             OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+            BigDecimal suma = new BigDecimal(BigInteger.ZERO);
+
             try(PrintWriter out = new PrintWriter( osw )) {
                 while ((lineInArray = reader.readNext()) != null) {
                     String konto = lineInArray[2];
                     String odbiorca = lineInArray[3];
                     String adres = lineInArray[4];
                     String kwota = lineInArray[5];
+                    suma = suma.add(new BigDecimal(kwota.replace(',','.')));
                     String tytul = lineInArray[7];
                     String output = odbiorca + ";" + adres + ";;" + konto + ";"+args[2]+";" + args[3]+ ";" + ";;" + tytul + ";;;" +kwota+";1;2";
                     out.println(output);
                     System.out.println(output);
                 }
+                System.out.println("kwota do zapłaty: " + suma.toString());
             } catch (FileNotFoundException fileNotFoundException) {
             System.out.println("brak możliwości otwarcia pliku: " + args[1]);
         } catch (UnsupportedEncodingException unsupportedEncodingException) {
