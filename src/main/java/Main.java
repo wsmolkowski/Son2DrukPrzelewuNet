@@ -22,7 +22,7 @@ public class Main {
     public static void main(String[] args) {
 
         if (args.length != 4) {
-            System.out.println("Wywołaj z 4 parametrami: santander_import.txt outout.csv nadawca adres_nadawcy. Opis docelowego pliku: https://drukprzelewu.net/opis.txt ");
+            System.out.println("Wywołaj z 4 parametrami: santander_import.txt out.csv nadawca adres_nadawcy. Opis docelowego pliku: https://drukprzelewu.net/opis.txt ");
             return;
         }
 
@@ -35,21 +35,21 @@ public class Main {
             String[] lineInArray;
             FileOutputStream fos = new FileOutputStream(args[1]);
             OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
-            BigDecimal suma = new BigDecimal(BigInteger.ZERO);
+            BigDecimal sum = new BigDecimal(BigInteger.ZERO);
 
             try(PrintWriter out = new PrintWriter( osw )) {
                 while ((lineInArray = reader.readNext()) != null) {
-                    String konto = lineInArray[2];
-                    String odbiorca = lineInArray[3];
-                    String adres = lineInArray[4];
-                    String kwota = lineInArray[5];
-                    suma = suma.add(new BigDecimal(kwota.replace(',','.')));
-                    String tytul = lineInArray[7];
-                    String output = odbiorca + ";" + adres + ";;" + konto + ";"+args[2]+";" + args[3]+ ";" + ";;" + tytul + ";;;" +kwota+";1;2";
+                    String account = lineInArray[2];
+                    String recipient = lineInArray[3];
+                    String address = lineInArray[4];
+                    String amount = lineInArray[5];
+                    sum = sum.add(new BigDecimal(amount.replace(',','.')));
+                    String title = lineInArray[7];
+                    String output = recipient + ";" + address + ";;" + account + ";"+args[2]+";" + args[3]+ ";" + ";;" + title + ";;;" +amount+";1;2";
                     out.println(output);
                     System.out.println(output);
                 }
-                System.out.println("kwota do zapłaty: " + suma.toString());
+                System.out.println("kwota do zapłaty: " + sum);
             } catch (FileNotFoundException fileNotFoundException) {
             System.out.println("brak możliwości otwarcia pliku: " + args[1]);
         } catch (UnsupportedEncodingException unsupportedEncodingException) {
